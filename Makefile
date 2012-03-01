@@ -1,5 +1,11 @@
 include ../../build/modules.mk
 
+MODULE = globalModule
+FILENAME = ${MODULE}.js
+SOURCE = ${SOURCE_DIR}/${MODULE}.js
+PRODUCTION = ${PRODUCTION_DIR}/${FILENAME}
+DEVELOPMENT = ${DEVELOPMENT_DIR}/${FILENAME}
+
 all:
-	cp source/globalModule.js ${LIBRARY_DEV}/globalModule.js
-	${UGLIFYJS} source/globalModule.js > ${LIBRARY_PRO}/globalModule.js
+	cp ${SOURCE} ${DEVELOPMENT}
+	${UGLIFYJS} ${SOURCE} > ${PRODUCTION}
