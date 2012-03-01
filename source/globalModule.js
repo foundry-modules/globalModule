@@ -11,9 +11,11 @@
  *
  */
 
-window.globalModule = (function() {
+(function() {
 
-	var self = function(name, factory) {
+	var self = window["globalModule"] = function(name, factory) {
+
+		if (name==undefined) return;
 
 		var module = self.registry[name] = {
 
