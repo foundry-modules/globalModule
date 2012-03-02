@@ -17,6 +17,10 @@
 
 		if (name==undefined) return;
 
+		if (factory==undefined) {
+			return self.registry[name];
+		};
+
 		var module = self.registry[name] = {
 
 			name: name,
@@ -29,27 +33,14 @@
 			}
 		};
 
-		// Go through the list of foundry and see which one is expecting it
-		for ($ in self.Foundry) {
+		// Temporarily use this because the new pub/sub doesn't look through window anymore.
+		var $ = window["Foundry/2·0"];
 
-			if ($.isExpecting(module.name)) {
-
-				self.export(module, $);
-			}
-		}
+		self.export(module, $);
 	};
 
 	// Add any existing foundry loaded before this to the list
 	self.registry = {};
-
-	self.Foundry = {};
-
-	for (prop in window) {
-
-		if (prop.indexOf("Foundry/")!=0) return;
-
-		self.Foundry[prop] = window[prop];
-	}
 
 	self.export = function(module, context) {
 
@@ -57,7 +48,7 @@
 
 		if (module !== undefined) {
 
-			return context.module(module.name, module.factory);
+			return context.module(module.name.replace("2.0/",""), module.factory);
 		}
 	};
 
